@@ -60,7 +60,9 @@ router.delete("/:id", (req, res) => {
     .where({ id: req.params.id })
     .del()
     .then(count => {
-      res.status(200).json({ message: `${count} record(s) deleted` });
+      if (count > 0) {
+        res.status(200).json({ message: `${count} record(s) deleted` });
+      } else res.status(404).json("Could not find car with the specified id");
     })
     .catch(error => {
       res.status(500).json({ message: "error deleting the car" });
